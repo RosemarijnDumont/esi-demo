@@ -1,0 +1,57 @@
+/* Base - Base styles */
+
+@import '../abstracts/variables';
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  margin: 0;
+  padding: 0;
+  background-color: $color-light;
+  color: $color-dark;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Dark mode styles
+body.dark-mode {
+  background-color: $dark-mode-background;
+  color: $dark-mode-text;
+
+  a {
+    color: $color-info;
+
+    &:hover {
+      color: lighten($color-info, 10%);
+    }
+  }
+
+  // Example of adapting other elements for dark mode
+  .card {
+    background-color: $dark-mode-surface;
+    border-color: $dark-mode-border;
+    color: $dark-mode-text;
+  }
+
+  input,
+  select,
+  textarea {
+    background-color: $dark-mode-surface;
+    color: $dark-mode-text;
+    border-color: $dark-mode-border;
+
+    &:focus {
+      border-color: $color-primary;
+      box-shadow: 0 0 0 0.2rem rgba($color-primary, 0.25);
+    }
+  }
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
