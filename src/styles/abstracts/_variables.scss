@@ -1,0 +1,32 @@
+/* Abstract - Variables */
+
+// Colors
+$color-primary: #007bff;
+$color-secondary: #6c757d;
+$color-success: #28a745;
+$color-danger: #dc3545;
+$color-warning: #ffc107;
+$color-info: #17a2b8;
+$color-light: #f8f9fa;
+$color-dark: #343a40;
+
+// Dark mode colors
+$dark-mode-background: #1a1a1a;
+$dark-mode-text: #e0e0e0;
+$dark-mode-surface: #2c2c2c;
+$dark-mode-border: #444444;
+
+// Typography
+$font-family-base: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// Spacing
+$spacing-unit: 8px;
+
+// Breakpoints
+$breakpoint-xs: 0;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
