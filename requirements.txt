@@ -1,0 +1,5 @@
+Flask~=2.3.2
+pandas~=2.0.3
+SQLAlchemy~=2.0.21
+psycopg2-binary~=2.9.9  # Or other database connector like pymysql, pg8000
+tenacity~=8.2.3

@@ -1,0 +1,68 @@
+## Financial Export Process - Training for Finance Team
+
+**Slide 1: Title Slide**
+*   **Title:** Optimized Financial Export Process
+*   **Subtitle:** Faster, More Reliable Data for Your Audits
+*   **Presenter:** [Your Name/Team]
+*   **Date:** [Date]
+
+**Slide 2: Agenda**
+*   Why the Change?
+*   What's New?
+*   How to Use the New Process
+*   Key Features & Benefits
+*   Troubleshooting Tips
+*   Q&A and Support
+
+**Slide 3: Why the Change?**
+*   **Old Process:** Frequently timed out, especially during quarter-end.
+*   Required multiple manual retries to get complete data.
+*   Caused delays in financial audits.
+*   **New Process:** Built for speed and reliability, ensuring data on the first attempt.
+
+**Slide 4: What's New? (Key Improvements)**
+*   **Robust Backend:** Re-engineered for high performance and scalability.
+*   **Error Handling:** Improved error messages for quicker problem identification.
+*   **Monitoring:** Enhanced system monitoring to prevent issues proactively.
+*   **User Experience:** Streamlined interface for easier use (if UI updated, otherwise mention backend only).
+
+**Slide 5: How to Use the New Process - Access**
+*   **System Name:** Financial Data Export System (FDES)
+*   **URL:** `https://fdes.yourcompany.com`
+*   **Login:** Use your standard corporate credentials (same as before).
+
+**Slide 6: How to Use the New Process - Step-by-Step Export**
+1.  **Navigate:** Click on "Financial Exports" tab.
+2.  **Select Export Type:** Choose from `Quarterly Financial Report`, `General Ledger Details`, `Custom Date Range Export`.
+3.  **Specify Parameters:**
+    *   `Quarterly:` Select Fiscal Quarter & Year.
+    *   `General Ledger:` Select Start/End Dates, optional accounts.
+    *   `Custom Date:` Enter specific Start/End Dates.
+4.  **Initiate:** Click "Generate Export."
+
+**Slide 7: How to Use the New Process - Monitoring & Download**
+1.  **Monitor Status:** Go to "Export History" to see your request status (Processing -> Completed/Failed).
+2.  **Download Data:** Click the "Download" icon once status is "Completed."
+*   _Data will be in CSV format._
+
+**Slide 8: Key Features & Benefits**
+*   **No More Timeouts!** Reliable data retrieval, even during peak periods.
+*   **Accuracy:** Complete and accurate datasets every time.
+*   **Efficiency:** Get your audit data faster, reducing manual effort.
+*   **Scalability:** Designed to handle increasing data volumes.
+
+**Slide 9: Troubleshooting Quick Tips**
+*   **"Processing" for too long?** Refresh the page. If persistent, contact IT with the Export ID.
+*   **"Failed" Status?** Read the error message. Double-check your input parameters. If still an issue, contact IT with Export ID and error.
+*   **Missing Data?** Verify your selected parameters. If you suspect system error, contact IT.
+
+**Slide 10: Q&A and Support**
+*   **Questions?**
+*   **IT Help Desk:**
+    *   Email: `it-support@yourcompany.com`
+    *   Phone: `(123) 456-7890`
+    *   Internal Support Portal: `https://support.yourcompany.com`
+*   _Please report any feedback or issues._
+
+**Slide 11: Thank You!**
+*   _We appreciate your patience during this upgrade and are confident this new process will significantly improve your efficiency._
