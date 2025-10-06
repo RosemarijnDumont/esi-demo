@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Status Update</title>
+</head>
+<body>
+    <p>Dear {{ customer_name }},</p>
+    <p>Your order <strong>{{ order_id }}</strong> has been {{ order_status }}.</p>
+    <p>You can track your order here: <a href="{{ tracking_link }}">{{ tracking_link }}</a></p>
+    <p>Thank you for your business!</p>
+    <p>Sincerely,</p>
+    <p>Your Support Team</p>
+</body>
+</html>
