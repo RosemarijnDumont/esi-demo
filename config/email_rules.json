@@ -1,0 +1,25 @@
+{
+    "rules": [
+        {
+            "scenario": "Password Reset",
+            "subject_keywords": ["password", "reset", "forgot"],
+            "body_keywords": ["reset my password", "lost access"],
+            "template_id": "template_password_reset",
+            "crm_status_to_update": "pending_reset"
+        },
+        {
+            "scenario": "Order Confirmation",
+            "subject_keywords": ["order", "confirmation"],
+            "body_keywords": ["receive my order", "did my order go through"],
+            "template_id": "template_order_confirmation",
+            "crm_status_to_update": "order_confirmed"
+        },
+        {
+            "scenario": "Technical Issue",
+            "subject_keywords": ["error", "bug", "technical"],
+            "body_keywords": ["not working", "issue with"],
+            "template_id": "template_technical_issue",
+            "crm_status_to_update": "technical_review"
+        }
+    ]
+}
