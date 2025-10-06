@@ -1,0 +1,1 @@
+# This file makes the 'notification_service' directory a Python package.
