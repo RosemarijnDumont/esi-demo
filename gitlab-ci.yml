@@ -1,0 +1,46 @@
+image: python:3.9
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python -m venv venv
+  - source venv/bin/activate
+  - pip install pip --upgrade
+  - pip install pytest selenium pytest-rerunfailures
+  # Install browser drivers (example for Chrome and Firefox)
+  # For Chrome:
+  - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+  - echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list
+  - apt-get update && apt-get install -y google-chrome-stable
+  - apt-get install -y chromium-driver # Installs compatible chromedriver
+  # For Firefox:
+  - apt-get update && apt-get install -y firefox-esr
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz # Replace with latest geckodriver version
+  - tar -xf geckodriver-v0.30.0-linux64.tar.gz
+  - mv geckodriver /usr/local/bin/
+  - chmod +x /usr/local/bin/geckodriver
+
+stages:
+  - test
+
+login_stability_test:
+  stage: test
+  script:
+    - source venv/bin/activate
+    - pytest --browser chrome tests/login_stability_test.py --junitxml=report-chrome.xml --html=report-chrome.html --self-contained-html
+    - pytest --browser firefox tests/login_stability_test.py --junitxml=report-firefox.xml --html=report-firefox.html --self-contained-html
+  artifacts:
+    when: always
+    paths:
+      - report-*.xml
+      - report-*.html
+    expire_in: 1 week
+  tags:
+    - selenium
+    - linux
