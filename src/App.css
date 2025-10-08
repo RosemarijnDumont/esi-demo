@@ -1,0 +1,92 @@
+/* General body styling */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+/* App container styling */
+.App {
+  text-align: center;
+}
+
+/* Header styling */
+.App-header {
+  background-color: #007bff;
+  padding: 20px 40px;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.App-header h1 {
+  margin: 0;
+  font-size: 1.8em;
+}
+
+/* Navigation styling */
+.App-header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.App-header nav li {
+  margin-left: 25px;
+}
+
+.App-header nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  transition: color 0.3s ease-in-out;
+}
+
+.App-header nav a:hover {
+  color: #e2e6ea;
+}
+
+/* Main content styling */
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+main h2 {
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+main p {
+  line-height: 1.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .App-header {
+    flex-direction: column;
+    padding: 15px 20px;
+  }
+
+  .App-header h1 {
+    margin-bottom: 15px;
+  }
+
+  .App-header nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .App-header nav li {
+    margin: 10px 0;
+  }
+}
