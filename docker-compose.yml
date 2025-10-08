@@ -1,0 +1,64 @@
+
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29092,PLAINTEXT_HOST://0.0.0.0:9093
+
+  notification-service:
+    build: .
+    container_name: notification-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SENDGRID_API_KEY: your_sendgrid_api_key_here # Replace with your actual SendGrid API Key
+      SENDGRID_SENDER_EMAIL: noreply@yourcompany.com # Replace with your sender email
+      NOTIFICATION_SERVICE_URL: http://notification-service:8000 # Internal URL for service-to-service communication
+    volumes:
+      - .:/app
+    command: uvicorn notification_service.main:app --host 0.0.0.0 --port 8000
+
+  notification-worker:
+    build: .
+    container_name: notification-worker
+    depends_on:
+      - kafka
+      - notification-service
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SENDGRID_API_KEY: your_sendgrid_api_key_here # Replace with your actual SendGrid API Key
+      SENDGRID_SENDER_EMAIL: noreply@yourcompany.com # Replace with your sender email
+      NOTIFICATION_SERVICE_URL: http://notification-service:8000 # Internal URL for service-to-service communication
+    volumes:
+      - .:/app
+    command: python run_consumer.py
