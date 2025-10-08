@@ -1,0 +1,51 @@
+{
+  "apiVersion": 0,
+  "uid": "ci-cd-overview",
+  "title": "CI/CD Pipeline Overview",
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Pipeline Success Rate",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(rate(pipeline_status{status=\"success\"}[5m])) / sum(rate(pipeline_status[5m])) * 100",
+          "legendFormat": "Success Rate",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Test Success Rate",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        {
+          "expr": "sum(rate(test_status{status=\"success\"}[5m])) / sum(rate(test_status[5m])) * 100",
+          "legendFormat": "Test Success Rate",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "graph",
+      "title": "Build Duration",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(build_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "99th percentile build duration",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(build_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "50th percentile build duration",
+          "refId": "B"
+        }
+      ]
+    }
+  ]
+}

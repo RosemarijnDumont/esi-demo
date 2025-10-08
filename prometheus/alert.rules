@@ -1,0 +1,19 @@
+groups:
+- name: ci-cd-reliability
+  rules:
+  - alert: HighPipelineFailureRate
+    expr: (sum(rate(pipeline_status{status="failure"}[5m])) / sum(rate(pipeline_status[5m])) * 100) > 10
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High CI/CD pipeline failure rate ({{ $value }}%)"
+      description: "The CI/CD pipeline failure rate has exceeded 10% for over 5 minutes. Investigate immediately."
+  - alert: SpikeInFailedRetries
+    expr: increase(test_retries_failed_total[5m]) > 5
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Spike in failed test retries ({{ $value }} retries)"
+      description: "There has been a significant increase in failed test retries in the last 2 minutes. This might indicate new flakiness."
