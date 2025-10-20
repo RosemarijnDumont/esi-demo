@@ -1,0 +1,17 @@
+/* Responsive adjustments for various screen sizes */
+@media (max-width: 768px) {
+  .button {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  /* Other responsive adjustments */
+}
+
+@media (max-width: 480px) {
+  .button {
+    padding: 8px 12px;
+    font-size: 12px;
+    width: 100%; /* Full width buttons on small screens */
+  }
+  /* Other responsive adjustments */
+}

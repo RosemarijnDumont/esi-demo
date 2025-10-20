@@ -1,0 +1,15 @@
+/* Dark mode color palette adjustments for better readability */
+body.dark-mode {
+  --background-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --primary-button-background: #007bff;
+  --primary-button-text: #ffffff;
+  --secondary-button-background: #6c757d;
+  --secondary-button-text: #ffffff;
+  --link-color: #90caf9; /* Lighter link for contrast */
+  /* Ensure sufficient contrast for all interactive elements and text */
+}
+
+body.dark-mode .button {
+  border: 1px solid var(--primary-button-background); /* Example border for clarity */
+}
