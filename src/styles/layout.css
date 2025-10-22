@@ -1,0 +1,79 @@
+
+/* Layout specific styles */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.main-content {
+  padding: 20px 0;
+}
+
+.sidebar {
+  width: 250px;
+  padding: 20px;
+  border-right: 1px solid var(--border-color);
+  background-color: var(--card-background-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Flexbox for main layout areas */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-area {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* Responsive adjustments for layout */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+
+  .content-area {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    /* Ensure sidebar is visible on mobile */
+    display: block; /* Or hide with JS and toggle */
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header h1 {
+    margin-bottom: 10px;
+  }
+
+  .container, .main-content, .content-area {
+    padding: 15px;
+  }
+}
