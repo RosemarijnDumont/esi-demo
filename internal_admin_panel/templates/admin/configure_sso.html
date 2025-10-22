@@ -1,0 +1,14 @@
+<!-- templates/admin/configure_sso.html -->
+
+{% extends 'admin/base_site.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Configure SSO for Trial Account: {{ account.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Configuration</button>
+    </form>
+</div>
+{% endblock %}
