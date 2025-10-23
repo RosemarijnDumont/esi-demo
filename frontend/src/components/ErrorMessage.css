@@ -1,0 +1,63 @@
+
+/* frontend/src/components/ErrorMessage.css */
+
+.error-message-container {
+  background-color: #ffe0e0; /* Light red background */
+  border: 1px solid #ff4d4d; /* Red border */
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.error-message-title {
+  color: #cc0000;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+}
+
+.error-message-text {
+  color: #666;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.error-message-suggestion {
+  color: #333;
+  font-weight: bold;
+  margin-top: 15px;
+  line-height: 1.4;
+}
+
+.error-message-code {
+  color: #999;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+
+.error-message-actions {
+  margin-top: 20px;
+}
+
+.error-message-actions button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.error-message-actions .btn-primary {
+  background-color: #cc0000;
+  color: white;
+}
+
+.error-message-actions .btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+}
