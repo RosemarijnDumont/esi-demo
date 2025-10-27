@@ -1,0 +1,309 @@
+
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "panels": [],
+      "title": "OAuth Callback Overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb_datasource_uid" // Replace with your InfluxDB datasource UID
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 0.1 // Alert if error rate > 10%
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifySpaceAround": false,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.5.3",
+      "targets": [
+        {
+          "query": "import \"influxdata/influxdb/schema\"\n\nsuccess_count = from(bucket: \"your_bucket_name\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"oauth_callback_errors\" and r.error_type == \"success\")\n  |> count()\n\nfailure_count = from(bucket: \"your_bucket_name\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"oauth_callback_errors\" and r.error_type != \"success\")\n  |> count()\n\nunion(tables: [success_count, failure_count])\n  |> group(columns: [\"_measurement\"])\n  // This needs to be refined. The idea is to get a percentage.
+  // For a simple ratio, this query is likely insufficient for production without further flux scripting.
+  // A more robust solution would involve combining these counts and calculating the ratio.
+  // For now this will show raw counts. Actual percentage calculation would be performed using a transform or more complex Flux.",
+          "refId": "A"
+        }
+      ],
+      "title": "OAuth Callback Success Rate (Placeholder)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb_datasource_uid" // Replace with your InfluxDB datasource UID
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "opacity",
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5
+          },
+          "mappings": [],
+          "nullValueMode": "null",
+          "stacking": {
+            "mode": "none"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 10 // Alert if more than 10 errors
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "query": "from(bucket: \"your_bucket_name\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"oauth_callback_errors\")\n  |> filter(fn: (r) => r.error_type != \"success\")\n  |> group(columns: [\"error_type\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: count, createEmpty: false)\n  |> yield(name: \"count\")",
+          "refId": "A"
+        }
+      ],
+      "title": "OAuth Callback Failures Over Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb_datasource_uid" // Replace with your InfluxDB datasource UID
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "noValue": "No errors",
+          "percentOrValue": "value",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1 // Alert on any error
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 8,
+      "options": {
+        "displayMode": "lcd",
+        "header": {
+          "show": true,
+          "values": [
+            {
+              "value": "Error Type"
+            },
+            {
+              "value": "Count"
+            }
+          ]
+        },
+        "overflow": "scroll",
+        "showType": "auto",
+        "sortBy": [
+          {
+            "field": "Count",
+            "desc": true
+          }
+        ]
+      },
+      "pluginVersion": "9.5.3",
+      "targets": [
+        {
+          "query": "from(bucket: \"your_bucket_name\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"oauth_callback_errors\")\n  |> filter(fn: (r) => r.error_type != \"success\")\n  |> group(columns: [\"error_type\"])\n  |> count(column: \"error_type\")\n  |> yield(name: \"count\")\n  |> rename(columns: { _value: \"Count\" })",
+          "refId": "A"
+        }
+      ],
+      "title": "Top OAuth Error Types",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb_datasource_uid" // Replace with your InfluxDB datasource UID
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "noValue": "No recent logs",
+          "percentOrValue": "value"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 23
+      },
+      "id": 10,
+      "options": {
+        "displayMode": "table",
+        "header": {
+          "show": true,
+          "values": [
+            {
+              "value": "Timestamp"
+            },
+            {
+              "value": "Level"
+            },
+            {
+              "value": "Component"
+            },
+            {
+              "value": "Message"
+            },
+            {
+              "value": "Details"
+            },
+            {
+              "value": "URL"
+            },
+            {
+              "value": "User Agent"
+            }
+          ]
+        },
+        "overflow": "scroll"
+      },
+      "pluginVersion": "9.5.3",
+      "targets": [
+        {
+          "query": "from(bucket: \"your_bucket_name\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"client_logs\")\n  |> filter(fn: (r) => r.level == \"ERROR\" or r.level == \"WARNING\")\n  |> sort(columns: [\"_time\"], desc: true)\n  |> limit(n: 50)",
+          "refId": "A"
+        }
+      ],
+      "title": "Recent Client-side Errors/Warnings",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "OAuth Callback Monitoring",
+  "uid": "oauth_callback_monitoring",
+  "version": 1
+}
