@@ -1,0 +1,98 @@
+/* frontend/src/styles/responsive.css */
+
+/* Basic responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-menu {
+        display: none; /* Hide by default on small screens */
+        width: 100%;
+    }
+
+    .navbar-menu.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Dark mode specific adjustments for contrast */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode a {
+    color: #90caf9; /* Lighter blue for links in dark mode */
+}
+
+body.dark-mode .navbar {
+    background-color: #2c2c2c;
+    border-bottom: 1px solid #444;
+}
+
+body.dark-mode .navbar-brand {
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #64b5f6;
+    color: #121212;
+    border-color: #64b5f6;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: #333333;
+    color: #e0e0e0;
+    border: 1px solid #555555;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #a0a0a0;
+}
+
+/* Ensure sufficient contrast for text on various backgrounds */
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode li {
+    color: #e0e0e0;
+}
+
+/* Example for specific components if needed */
+body.dark-mode .dashboard-widget-title {
+    color: #bb86fc; /* Accent color for titles */
+}
