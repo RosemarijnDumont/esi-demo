@@ -1,0 +1,65 @@
+/* Basic styling for demonstration – adjust as needed */
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.App-header {
+  margin-bottom: 30px;
+}
+
+.application-form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.application-form div {
+  margin-bottom: 15px;
+}
+
+.application-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.application-form input[type="text"],
+.application-form input[type="email"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.application-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.application-form button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.success-message {
+  color: green;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.error-message {
+  color: red;
+  margin-top: 20px;
+  font-weight: bold;
+}
