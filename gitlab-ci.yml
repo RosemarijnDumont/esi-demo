@@ -1,0 +1,172 @@
+# Define stages for the CI/CD pipeline
+stages:
+  - build
+  - test
+  - deploy
+  - monitor
+  - security
+  - uat
+
+variables:
+  DOCKER_REGISTRY: your-docker-registry.com
+  IMAGE_NAME: self-service-software-portal
+
+.build_template:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t $DOCKER_REGISTRY/$IMAGE_NAME-$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHORT_SHA .$COMPONENT_PATH
+    - docker push $DOCKER_REGISTRY/$IMAGE_NAME-$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHORT_SHA
+
+build_portal:
+  extends: .build_template
+  variables:
+    COMPONENT_PATH: portal
+
+build_api:
+  extends: .build_template
+  variables:
+    COMPONENT_PATH: api
+
+build_automation_engine:
+  extends: .build_template
+  variables:
+    COMPONENT_PATH: automation-engine
+
+.unit_test_template:
+  stage: test
+  image: python:3.9-slim-buster # Or appropriate language image
+  script:
+    - echo "Running unit tests for $COMPONENT_NAME"
+    - cd $COMPONENT_PATH
+    - pip install -r requirements.txt
+    - pytest
+
+unit_test_portal:
+  extends: .unit_test_template
+  variables:
+    COMPONENT_PATH: portal
+    COMPONENT_NAME: Portal
+
+unit_test_api:
+  extends: .unit_test_template
+  variables:
+    COMPONENT_PATH: api
+    COMPONENT_NAME: API
+
+unit_test_automation_engine:
+  extends: .unit_test_template
+  variables:
+    COMPONENT_PATH: automation-engine
+    COMPONENT_NAME: Automation Engine
+
+# End-to-end Integration Tests
+integration_test:
+  stage: test
+  image: cypress/included:10.0.0 # Example for UI-based E2E testing
+  script:
+    - echo "Running end-to-end integration tests"
+    - # Commands to set up and run integration tests (e.g., Cypress, Playwright, Selenium)
+    - # Example: cypress run --config baseUrl=$STAGING_PORTAL_URL
+    - echo "Integration tests completed."
+  variables:
+    STAGING_PORTAL_URL: http://staging.your-portal.com
+  needs:
+    - unit_test_portal
+    - unit_test_api
+    - unit_test_automation_engine
+
+.deploy_template:
+  stage: deploy
+  image: alpine/helm:3.8.1 # Or kubectl, Ansible, etc.
+  script:
+    - echo "Deploying $COMPONENT_NAME to $ENVIRONMENT environment"
+    - # Commands to deploy (e.g., helm upgrade --install $COMPONENT_NAME ./helm-charts/$COMPONENT_NAME -f values-$ENVIRONMENT.yaml)
+    - echo "Deployment of $COMPONENT_NAME to $ENVIRONMENT completed."
+  environment: # GitLab built-in environment support
+    name: $ENVIRONMENT
+    url: http://$ENVIRONMENT.your-portal.com # Dynamic URL for the environment
+  when: manual # Manual deployment to production, automatic to staging
+  only:
+    - main
+
+deploy_to_staging:
+  extends: .deploy_template
+  variables:
+    ENVIRONMENT: staging
+    COMPONENT_NAME: all
+  when: on_success # Automatic deployment to staging after successful tests
+
+deploy_to_production:
+  extends: .deploy_template
+  variables:
+    ENVIRONMENT: production
+    COMPONENT_NAME: all
+  when: manual # Manual approval for production deployment
+  allow_failure: false
+
+# Monitoring (placeholder - actual implementation would be in IaC/monitoring system)
+monitor_setup:
+  stage: monitor
+  image: alpine/curl:latest
+  script:
+    - echo "Setting up monitoring and alerting (e.g., Prometheus, Grafana, ELK, PagerDuty)"
+    - echo "This would typically involve Terraform/Ansible scripts configuring monitoring agents/dashboards."
+    - echo "Verifying service endpoints are reachable after deployment."
+    # Example: curl -f http://staging.your-portal.com/health || (echo "Health check failed!" && exit 1)
+  when: on_success
+  allow_failure: true
+
+# Security Testing
+security_scan_sast:
+  stage: security
+  image: docker:latest
+  services:
+    - docker:dind
+  variables:
+    SAST_SCANNER: "semgrep --config auto ."
+  script:
+    - echo "Running Static Application Security Testing (SAST)"
+    # Example using Semgrep, Bandit, SonarQube scanner
+    - docker run --rm -v $(pwd):/src returntocorp/semgrep_local:latest $SAST_SCANNER
+    - echo "SAST scan completed. Review findings."
+  allow_failure: true # Don't block pipeline for findings, but flag them
+
+security_scan_dependency:
+  stage: security
+  image: owasp/dependency-check:latest
+  script:
+    - echo "Running Dependency Vulnerability Scan (e.g., OWASP Dependency-Check, Snyk)"
+    - # Command to run dependency scan against project dependencies
+    - # Example: dependency-check.sh -f ALL -o ./dependency-reports -s .
+    - echo "Dependency scan completed. Review findings."
+  allow_failure: true
+
+# Placeholder for DAST/Penetration Testing Simulation
+security_scan_dast_pentest:
+  stage: security
+  image: owasp/zap2docker-weekly
+  script:
+    - echo "Running Dynamic Application Security Testing (DAST) / Penetration Test Simulation (e.g., OWASP ZAP)"
+    - # Example: zap-baseline.py -t http://staging.your-portal.com -r zap_report.html
+    - echo "DAST/Penetration Test Simulation completed. Review findings."
+  variables:
+    STAGING_PORTAL_URL: http://staging.your-portal.com
+  allow_failure: true
+
+# User Acceptance Testing (UAT)
+uat_facilitation:
+  stage: uat
+  image: alpine/curl:latest
+  script:
+    - echo "UAT Phase: Notify stakeholders and provide access to the staging environment."
+    - echo "Instructions for UAT can be found at: http://your-company.com/uat-guidelines"
+    - echo "Collect feedback from stakeholders regarding the portal's functionality and user experience."
+    - echo "Link to UAT feedback form: http://your-company.com/uat-feedback"
+  when: manual
+  allow_failure: false
+  environment:
+    name: staging
+    url: http://staging.your-portal.com
