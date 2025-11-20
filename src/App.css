@@ -1,0 +1,77 @@
+.App {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.App-header {
+    background-color: #282c34;
+    padding: 20px;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.App-header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+.App-header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.App-header nav ul li a {
+    color: #61dafb;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.App-header nav ul li a:hover {
+    color: #ffffff;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+/* Basic responsive adjustments */
+@media (max-width: 768px) {
+    .ticket-list-detail-container {
+        flex-direction: column;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-sort-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .ticket-list, .ticket-detail {
+        max-height: unset;
+        overflow-y: unset;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .App-header nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
